@@ -1,5 +1,6 @@
 __Example functions list:__
 
+```
 **userLogin()**
 Login user with PLYR[ID] and otp (2fa token) to get session JWT back
 
@@ -8,6 +9,7 @@ Logout current user with session JWT you get from userLogin()
 
 **userInfo()**
 Get basic info of user by PLYR[ID] or Primary Address
+```
 
 __.env example__
 
