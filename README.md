@@ -1,13 +1,13 @@
 __Example functions list:__
 
 ```
-__userLogin()__
+userLogin()
 Login user with PLYR[ID] and otp (2fa token) to get session JWT back
 
-__userLogout()__
+userLogout()
 Logout current user with session JWT you get from userLogin()
 
-__userInfo()__
+userInfo()
 Get basic info of user by PLYR[ID] or Primary Address
 ```
 
