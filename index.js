@@ -6,13 +6,24 @@ const { getTaskMessageStatus } = require("./lib/message");
 
 // CLI //
 const args = process.argv.splice(2);
-
+function parseStringNumber(input) {
+    if (!input) return null
+    // Check if the string ends with 's'
+    if (input[input.length - 1] === 's') {
+        return parseInt(input.slice(0, -1), 10);
+    }
+    // Check if the string is a valid number
+    else if (!isNaN(input)) {
+        return parseInt(input, 10);
+    }
+    // If it's '1h' or any other string, return it as it is
+    return input;
+}
 // node index.js login fennec2 123456 86400s << dont forget to have "s" to represent seconds. Otherwise, it will be milliseconds
 // You can use 1h , 1d , 1w too.
 // default is 86400s -- in case, you don't specify it
 if (args[0] == 'login') {
-
-    userLogin(args[1], args[2], args[3], (args[4] || null));
+    userLogin(args[1], args[2], parseStringNumber(args[3]));
 
     // node index.js logout eyJhbGciOiJFUzI1N...
 } else if (args[0] == 'logout') {
