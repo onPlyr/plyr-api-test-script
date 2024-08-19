@@ -4,6 +4,8 @@ const { airdropCampaignInfo, airdropCampaignClaimableRewards, airdropCampaignCla
 
 const { getTaskMessageStatus } = require("./lib/message");
 
+const { getSessionJwtPublicKey, verifyJwtLocally } = require("./lib/jwt");
+
 // CLI //
 const args = process.argv.splice(2);
 function parseStringNumber(input) {
@@ -33,6 +35,22 @@ if (args[0] == 'login') {
 } else if (args[0] == 'verifyJwt') {
     checkSessionJwt(args[1]);
 }
+
+// node index.js getSessionJwtPublicKey
+else if (args[0] == 'getSessionJwtPublicKey') {
+    getSessionJwtPublicKey();
+}
+// node index.js verifyJwtLocally eyJhbGciOiJFUzI1N...
+// In case, you just want to check validity of jwt / token is expire or not. 
+// For a job like, to check if a message is expired or not and then return user back to login page.
+// It's just a simple feature to reduce to checking time.
+// Anyway, you can use /api/user/session/verify if you want accurate result.
+else if (args[0] == 'verifyJwtLocally')
+{
+    verifyJwtLocally(args[1])
+}
+
+
 // node index.js info fennec2
 else if (args[0] == 'info') {
     getUserInfo(args[1]);
@@ -57,3 +75,4 @@ else if (args[0] == "airdropClaim") {
 else if (args[0] == 'airdropClaimedStatus') {
     getTaskMessageStatus(args[1]);
 }
+
