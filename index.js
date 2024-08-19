@@ -9,6 +9,10 @@ const secretKey = process.env.PLYR_API_SECRET;
 
 /* 
     [POST] Authenication - Login
+    params:
+        plyrId
+        otp
+        deadline
     return:
         sessionJwt
         plyrId
@@ -48,16 +52,13 @@ async function userLogin(plyrId, otp, deadline) {
 }
 
 /* 
-    [POST] Session - check user's sessionJWT  //
-
-/* 
-    [POST] Authentication - Logout - Please don't use it yet. Maybe need to remove plyrId parameter.
+    [POST] Authentication - Logout
+    Param: sessionJwt
 */
-async function userLogout(plyrId, sessionJwt) {
+async function userLogout(sessionJwt) {
     const timestamp = Date.now().toString();
 
     let body = {
-        plyrId: plyrId, // Always be a lowercase string (autoconvert)
         sessionJwt: sessionJwt, // logged in sessionJwt
     }
 
@@ -83,17 +84,45 @@ async function userLogout(plyrId, sessionJwt) {
 }
 
 
-// To Implement //
+/* 
+    [POST] Session - check user's sessionJWT  //
+    param: sessionJwt
+*/
 async function checkSessionJwt(sessionJwt) {
-    
+    const timestamp = Date.now().toString();
+
+    let body = {
+       sessionJwt: sessionJwt
+    }
+
+    let hmac = generateHmacSignature(timestamp, body, secretKey);
+
+    try {
+        let ret = await axios.post(
+            apiEndpoint + "/api/user/session/verify",
+            body,
+            {
+                headers: {
+                    apikey: apiKey,
+                    signature: hmac,
+                    timestamp: timestamp,
+                },
+            }
+        );
+        console.log("ret", ret.status);
+        console.log("ret", ret.data);
+    } catch (error) {
+        console.log(error.response.data);
+    }
 }
 
-// [GET] UserInfo  //
-/*
+/* [GET] UserInfo 
     Can use both PLYR[ID] or Primary address
     Example:
-    /api/user/info/fennec1
+    /api/user/info/fennec2
     or /api/user/info/0xbb0ca470620348c8297281C3bA3740b02879a327
+
+    param: searchTxt
 */
 async function getUserInfo(searchTxt) {
     const timestamp = Date.now().toString();
@@ -117,12 +146,21 @@ async function getUserInfo(searchTxt) {
     }
 }
 
+const args = process.argv.splice(2);
 
-//getUserInfo('fennec2');
+// node index.js login fennec2 123456
+if (args[0] == 'login') {
+    userLogin(args[1], args[2], args[3]);
 
-//userLogin('fennec2', '460225');
+// node index.js logout eyJhbGciOiJFUzI1N...
+} else if (args[0] == 'logout') {
+    userLogout(args[1]);
 
-// Please don't use userLogout() yet.
-//userLogout('fennec2', 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJwbHlySWQiOiJmZW5uZWMyIiwibm9uY2UiOjIsImRlYWRsaW5lIjoxNzIzOTA4MTUyMDM0LCJnYW1lSWQiOiJ0ZXN0ZXIiLCJwcmltYXJ5QWRkcmVzcyI6IjB4QTdGQzA1ZDVjOGU5ZDU0ZGJhNzMyQmIxQUQ2ODBjNTBhNmUwZDJjYyIsIm1pcnJvciI6IjB4MDc0N2FCMzNkZTFGOTBkMGY3MTIyODYwNTk1ZWZDNDU4NUVlZTA3MyIsImlhdCI6MTcyMzgyMTc1Mn0.zVgNxpwzeiyJeg5Yg1bSB_JDvt53d7FP3aGEtd8eFVONGjR8VAnVX_IFVJmLKZToNAP-MpB9dHXconGWqUQ3FQ')
-
-
+// node index.js check eyJhbGciOiJFUzI1N...
+} else if (args[0] == 'verifyJwt') {
+    checkSessionJwt(args[1]);
+}
+// node index.js info fennec2
+else if (args[0] == 'info') {
+    getUserInfo(args[1]);
+}
