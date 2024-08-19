@@ -44,9 +44,10 @@ async function userLogin(plyrId, otp, deadline) {
                 },
             }
         );
-        console.log("ret", ret.status);
+        console.log("status", ret.status);
         console.log("ret", ret.data);
     } catch (error) {
+        console.log("status", error.response.status);
         console.log(error.response.data);
     }
 }
@@ -76,9 +77,10 @@ async function userLogout(sessionJwt) {
                 },
             }
         );
-        console.log("ret", ret.status);
+        console.log("status", ret.status);
         console.log("ret", ret.data);
     } catch (error) {
+        console.log("status", error.response.status);
         console.log(error.response.data);
     }
 }
@@ -109,9 +111,10 @@ async function checkSessionJwt(sessionJwt) {
                 },
             }
         );
-        console.log("ret", ret.status);
+        console.log("status", ret.status);
         console.log("ret", ret.data);
     } catch (error) {
+        console.log("status", error.response.status);
         console.log(error.response.data);
     }
 }
@@ -139,9 +142,10 @@ async function getUserInfo(searchTxt) {
                 },
             }
         );
-        console.log("ret", ret.status);
+        console.log("status", ret.status);
         console.log("ret", ret.data);
     } catch (error) {
+        console.log("status", error.response.status);
         console.log(error.response.data);
     }
 }
