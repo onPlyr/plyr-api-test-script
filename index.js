@@ -1,10 +1,12 @@
 const { userLogin, userLogout, checkSessionJwt, getUserInfo } = require("./lib/user");
 
-const { airdropCampaignInfo, airdropCampaignClaimableRewards, airdropCampaignClaim } = require("./lib/airdrop");
+const { airdropCampaignInfo, airdropCampaignClaimableRewards, airdropCampaignClaim, airdropUserStats } = require("./lib/airdrop");
 
 const { getTaskMessageStatus } = require("./lib/message");
 
 const { getSessionJwtPublicKey, verifyJwtLocally } = require("./lib/jwt");
+
+const { createGameRoom, joinGameRoom, leaveGameRoom } = require("./lib/game");
 
 // CLI //
 const args = process.argv.splice(2);
@@ -72,7 +74,47 @@ else if (args[0] == "airdropClaim") {
     airdropCampaignClaim(args[1], args[2], args[3]);
 }
 // node index.js airdropClaimedStatus MESSAGE_ID
-else if (args[0] == 'airdropClaimedStatus') {
+else if (args[0] == 'getTaskMessageStatus') {
     getTaskMessageStatus(args[1]);
+}
+
+// node index.js airdropUserRewards 0 0xabc..1234
+else if (args[0] == 'airdropUserStats')
+{
+    airdropUserStats(args[1], args[2]);
+}
+
+
+// Test Game flow //
+// 1. Login user first and keep user JWT -- login(plyrid, otp, expiresIn) //
+// 2. Create a game room -- createGameRoom(expiresIn) //
+// 3. Let user join the room //
+// 4. Try to let user approve game token //
+// 5. Try to earn //
+// 6. Try to end the game room //
+// 7. Try to cancel the game room //
+
+// node index.js createGameRoom 86400
+else if (args[0] == 'createGameRoom') {
+    createGameRoom(args[1]);
+}
+
+
+// node index.js joinGameRoom 6 sessionJwt
+// args1 = roomId
+// args2 = plyrId
+// args3 = sessionJwt
+// In the real world, you can bring many users to join the room. (please check at lib/game.js)
+else if (args[0] == 'joinGameRoom') {
+    joinGameRoom(args[1], args[2], args[3]);
+}
+
+// node index.js leaveGam 6 sessionJwt
+// args1 = roomId
+// args2 = plyrId
+// args3 = sessionJwt
+// In the real world, you can remove many users from the room. (please check at lib/game.js)
+else if (args[0] == 'leaveGameRoom') {
+    leaveGameRoom(args[1], args[2], args[3]);
 }
 
