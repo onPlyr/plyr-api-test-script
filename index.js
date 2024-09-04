@@ -153,7 +153,7 @@ else if (args[0] == 'endGameRoom') {
 
 }
 
-else if (args[0] == 'cancelGameRoom') {
+else if (args[0] == 'closeGameRoom') {
 
 }
 
@@ -162,5 +162,9 @@ else if (args[0] == 'allowanceGameToken') {
 }
 
 else if (args[0] == 'isJoinedGameRoom') {
+
+}
+
+else if (args[0] == 'revokeApproval'){
 
 }
