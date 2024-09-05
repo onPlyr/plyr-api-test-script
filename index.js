@@ -6,7 +6,7 @@ const { getTaskMessageStatus } = require("./lib/message");
 
 const { getSessionJwtPublicKey, verifyJwtLocally } = require("./lib/jwt");
 
-const { createGameRoom, joinGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom } = require("./lib/game");
+const { createGameRoom, joinGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom } = require("./lib/game");
 
 // CLI //
 const args = process.argv.splice(2);
@@ -133,7 +133,7 @@ else if (args[0] == 'approveGameToken') {
 // args2 = plyrId
 // args3 = sessionJwt
 // args4 = tokenName (now support only 'plyr', 'gamr' and future it will support more and ttoken address too)
-// args5 = amount of token to approve (Just a number like 0.00001 , 1 , 10 , 1000)
+// args5 = amount of token to pay but need to <= approved amount
 // In the real world, you can spend many users' tokens at the same time (please check at lib/game.js)
 else if (args[0] == 'payGameRoom') {
     payGameRoom(args[1], args[2], args[3], args[4], args[5])
@@ -149,8 +149,9 @@ else if (args[0] == 'earnGameRoom') {
     earnGameRoom(args[1], args[2], args[3], args[4])
 }
 
+// node index.js endGameRoom roomId
 else if (args[0] == 'endGameRoom') {
-
+    endGameRoom(args[1])
 }
 
 else if (args[0] == 'closeGameRoom') {
