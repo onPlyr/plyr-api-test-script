@@ -6,7 +6,7 @@ const { getTaskMessageStatus } = require("./lib/message");
 
 const { getSessionJwtPublicKey, verifyJwtLocally } = require("./lib/jwt");
 
-const { createGameRoom, joinGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom } = require("./lib/game");
+const { createGameRoom, joinGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance } = require("./lib/game");
 
 // CLI //
 const args = process.argv.splice(2);
@@ -154,12 +154,13 @@ else if (args[0] == 'endGameRoom') {
     endGameRoom(args[1])
 }
 
-else if (args[0] == 'closeGameRoom') {
+// node index.js getGameAllowan plyrId gameId token
+// args1 = plyrid
+// args2 = gameid
+// args3 = tokenName (now support only 'plyr', 'gamr' and future it will support more and ttoken address too)
 
-}
-
-else if (args[0] == 'allowanceGameToken') {
-
+else if (args[0] == 'getGameAllowance') {
+    getGameAllowance(args[1], args[2, args[3]])
 }
 
 else if (args[0] == 'isJoinedGameRoom') {
