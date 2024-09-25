@@ -1,4 +1,4 @@
-const { userLogin, userLogout, checkSessionJwt, getUserInfo } = require("./lib/user");
+const { userLogin, userLogout, checkSessionJwt, getUserInfo, getAvatar } = require("./lib/user");
 
 const { airdropCampaignInfo, airdropCampaignClaimableRewards, airdropCampaignClaim, airdropUserStats } = require("./lib/airdrop");
 
@@ -56,6 +56,13 @@ else if (args[0] == 'verifyJwtLocally') {
 else if (args[0] == 'info') {
     getUserInfo(args[1]);
 }
+
+// node index.js getAvatar fennec2
+else if (args[0] == 'getAvatar'){
+    getAvatar(args[1]);
+}
+
+
 // node index.js airdropInfo
 else if (args[0] == "airdropCampaignInfo") {
     airdropCampaignInfo();
