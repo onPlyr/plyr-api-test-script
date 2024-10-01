@@ -6,7 +6,7 @@ const { getTaskMessageStatus } = require("./lib/message");
 
 const { getSessionJwtPublicKey, verifyJwtLocally } = require("./lib/jwt");
 
-const { createGameRoom, joinGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance } = require("./lib/game");
+const { createGameRoom, joinGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd } = require("./lib/game");
 
 // CLI //
 const args = process.argv.splice(2);
@@ -120,7 +120,7 @@ else if (args[0] == 'joinGameRoom') {
 // args3 = sessionJwt
 // In the real world, you can remove many users from the room. (please check at lib/game.js)
 else if (args[0] == 'leaveGameRoom') {
-    leaveGameRoom(args[1], args[2], args[3]);
+    leaveGameRoom(args[1], args[2]);
 }
 
 // node index.js approveGameToken plyrId gameId plyr 10 3600 123456
@@ -167,13 +167,43 @@ else if (args[0] == 'endGameRoom') {
 // args3 = tokenName (now support only 'plyr', 'gamr' and future it will support more and ttoken address too)
 
 else if (args[0] == 'getGameAllowance') {
-    getGameAllowance(args[1], args[2, args[3]])
+    getGameAllowance(args[1], args[2], args[3])
 }
 
 else if (args[0] == 'isJoinedGameRoom') {
 
 }
 
-else if (args[0] == 'revokeApproval'){
 
+// node index.js revokeApproval plyrId gameId tokenName
+// args1 = plyrId
+// args2 = gameId / all is means revoke all game
+// args3 = tokenName / all is means revoke all token
+// args4 = otp
+else if (args[0] == 'revokeApproval'){
+    revokeApproval(args[1], args[2], args[3], args[4])
+}
+
+// AKA Start Settlement //
+// A classic like Zoo API. Create a room, join users, Pay for the room. at once
+// node index.js createJoinPay plyrId token amount sessionJwt
+// args1 = plyrId
+// args2 = token - Token Name or Token Address
+// args3 = Token amount
+// args4 = sessionJwt
+// Can do multiple users please check at lib/game.js
+else if (args[0] == 'createJoinPay') {
+    createJoinPay(args[1], args[2], args[3], args[4])
+}
+
+// AKA Over Settlement //
+// A classic like Zoo API. Reward a users, let them leave the room and end the room
+// node index.js earnLeaveEnd roomId plyrId token amount sessionJwt
+// arg1 = roomId
+// args2 = plyrId
+// args3 = token - Token Name or Token Address
+// args4 = Reward amount
+// Can do multiple users please check at lib/game.js
+else if (args[0] == 'earnLeaveEnd') {
+    earnLeaveEnd(args[1], args[2], args[3], args[4])
 }
