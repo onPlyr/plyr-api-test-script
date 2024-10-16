@@ -1,4 +1,4 @@
-const { userLogin, userLogout, checkSessionJwt, getUserInfo, getAvatar } = require("./lib/user");
+const { userLogin, userLogout, checkSessionJwt, getUserInfo, getAvatar, userLoginAndApprove } = require("./lib/user");
 
 const { airdropCampaignInfo, airdropCampaignClaimableRewards, airdropCampaignClaim, airdropUserStats } = require("./lib/airdrop");
 
@@ -30,7 +30,20 @@ if (args[0] == 'login') {
     userLogin(args[1], args[2], parseStringNumber(args[3]));
 
     // node index.js logout eyJhbGciOiJFUzI1N...
-} else if (args[0] == 'logout') {
+}
+
+// node index.js loginAndApprove fennec2 gameId 123456 86400s plyr 10
+// args1 = plyrId
+// args2 = gameId / Not a game api key / you can get it with api key, sec key
+// args3 = token name plyr or gamr and support token address in the future
+// args4 = amount of token to approve
+// args5 = expiresIn
+// args6 = otp // 2fa token
+// Once you approved, it means that it approved to entire game process. Don't need to call it everytime to pay to each room
+else if (args[0] == 'loginAndApprove') {
+    userLoginAndApprove(args[1], args[2], args[3], args[4], parseStringNumber(args[5]), args[6]);
+}
+else if (args[0] == 'logout') {
     userLogout(args[1]);
 
     // node index.js check eyJhbGciOiJFUzI1N...
@@ -58,7 +71,7 @@ else if (args[0] == 'info') {
 }
 
 // node index.js getAvatar fennec2
-else if (args[0] == 'getAvatar'){
+else if (args[0] == 'getAvatar') {
     getAvatar(args[1]);
 }
 
@@ -180,7 +193,7 @@ else if (args[0] == 'isJoinedGameRoom') {
 // args2 = gameId / all is means revoke all game
 // args3 = tokenName / all is means revoke all token
 // args4 = otp
-else if (args[0] == 'revokeApproval'){
+else if (args[0] == 'revokeApproval') {
     revokeApproval(args[1], args[2], args[3], args[4])
 }
 
