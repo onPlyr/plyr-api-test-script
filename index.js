@@ -1,4 +1,4 @@
-const { userLogin, userLogout, checkSessionJwt, getUserInfo, getAvatar, userLoginAndApprove } = require("./lib/user");
+const { userLogin, userLogout, checkSessionJwt, getUserInfo, getAvatar, userLoginAndApprove, getUserBalance } = require("./lib/user");
 
 const { airdropCampaignInfo, airdropCampaignClaimableRewards, airdropCampaignClaim, airdropUserStats } = require("./lib/airdrop");
 
@@ -70,6 +70,11 @@ else if (args[0] == 'info') {
     getUserInfo(args[1]);
 }
 
+// node index.js getBalance fennec2
+else if (args[0] == 'userBalance') {
+    getUserBalance(args[1]);
+}
+
 // node index.js getAvatar fennec2
 else if (args[0] == 'getAvatar') {
     getAvatar(args[1]);
@@ -114,7 +119,10 @@ else if (args[0] == 'airdropUserStats') {
 
 // node index.js createGameRoom 86400
 else if (args[0] == 'createGameRoom') {
+    // check latency
+
     createGameRoom(args[1]);
+
 }
 
 
