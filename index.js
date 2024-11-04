@@ -6,7 +6,9 @@ const { getTaskMessageStatus } = require("./lib/message");
 
 const { getSessionJwtPublicKey, verifyJwtLocally } = require("./lib/jwt");
 
-const { createGameRoom, joinGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd } = require("./lib/game");
+const { createGameRoom, joinGameRoom, isJoinedGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd } = require("./lib/game");
+
+const { registerIPP, revealClaimingCode, verifyClaimingCode, revealIPPPrivateKey } = require("./lib/instantplaypass");
 
 // CLI //
 const args = process.argv.splice(2);
@@ -23,11 +25,13 @@ function parseStringNumber(input) {
     // If it's '1h' or any other string, return it as it is
     return input;
 }
+// node index.js login fennec2 123456 << this will use a default expiresIn 86400s and gameId is related to API KEY
 // node index.js login fennec2 123456 86400s << dont forget to have "s" to represent seconds. Otherwise, it will be milliseconds
+// node index.js login fennec2 123456 86400s gameId << this will use a specific gameId
 // You can use 1h , 1d , 1w too.
 // default is 86400s -- in case, you don't specify it
 if (args[0] == 'login') {
-    userLogin(args[1], args[2], parseStringNumber(args[3]));
+    userLogin(args[1], args[2], parseStringNumber(args[3]), args[4]);
 
     // node index.js logout eyJhbGciOiJFUzI1N...
 }
@@ -191,8 +195,9 @@ else if (args[0] == 'getGameAllowance') {
     getGameAllowance(args[1], args[2], args[3])
 }
 
+// node index.js isJoinedGameRoom roomId plyrId
 else if (args[0] == 'isJoinedGameRoom') {
-
+    isJoinedGameRoom(args[1], args[2])
 }
 
 
@@ -228,3 +233,23 @@ else if (args[0] == 'createJoinPay') {
 else if (args[0] == 'earnLeaveEnd') {
     earnLeaveEnd(args[1], args[2], args[3], args[4])
 }
+
+// node index.js registerIPP
+else if (args[0] == 'registerIPP') {
+    registerIPP();
+}
+
+// node index.js revealClaimingCode IPPSessionJWT
+else if (args[0] == 'revealClaimingCode') {
+    revealClaimingCode(args[1]);
+}
+
+// node index.js verifyClaimingCode claimingCode
+else if (args[0] == 'verifyClaimingCode') {
+    verifyClaimingCode(args[1]);
+}
+
+// node index.js revealIPPPrivateKey IPPSessionJWT
+// else if (args[0] == 'revealIPPPrivateKey') {
+//     revealIPPPrivateKey(args[1]);
+// }
