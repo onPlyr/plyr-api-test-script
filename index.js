@@ -10,6 +10,8 @@ const { createGameRoom, joinGameRoom, isJoinedGameRoom, leaveGameRoom, approveGa
 
 const { registerIPP, revealClaimingCode, verifyClaimingCode, revealIPPPrivateKey } = require("./lib/instantplaypass");
 
+const { activityLogs } = require("./lib/log");
+
 // CLI //
 const args = process.argv.splice(2);
 function parseStringNumber(input) {
@@ -253,3 +255,8 @@ else if (args[0] == 'verifyClaimingCode') {
 // else if (args[0] == 'revealIPPPrivateKey') {
 //     revealIPPPrivateKey(args[1]);
 // }
+
+// node index.js activityLogs plyrId
+else if (args[0] == 'activityLogs') {
+    activityLogs(args[1]);
+}
