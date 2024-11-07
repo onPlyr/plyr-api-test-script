@@ -6,7 +6,7 @@ const { getTaskMessageStatus } = require("./lib/message");
 
 const { getSessionJwtPublicKey, verifyJwtLocally } = require("./lib/jwt");
 
-const { createGameRoom, joinGameRoom, isJoinedGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd, batchPayGameRoom, batchEarnGameRoom } = require("./lib/game");
+const { createGameRoom, joinGameRoom, isJoinedGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd, batchPayGameRoom, batchEarnGameRoom, joinPay } = require("./lib/game");
 
 const { registerIPP, revealClaimingCode, verifyClaimingCode, revealIPPPrivateKey } = require("./lib/instantplaypass");
 
@@ -227,6 +227,12 @@ else if (args[0] == 'isJoinedGameRoom') {
 // args4 = otp
 else if (args[0] == 'revokeApproval') {
     revokeApproval(args[1], args[2], args[3], args[4])
+}
+
+// node index.js joinPay gameId roomId sessionJwt token amount
+
+else if (args[0] == 'joinPay') {
+    joinPay(args[1], args[2], args[3], args[4], args[5])
 }
 
 // AKA Start Settlement //
