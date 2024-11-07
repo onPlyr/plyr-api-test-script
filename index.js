@@ -6,7 +6,7 @@ const { getTaskMessageStatus } = require("./lib/message");
 
 const { getSessionJwtPublicKey, verifyJwtLocally } = require("./lib/jwt");
 
-const { createGameRoom, joinGameRoom, isJoinedGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd } = require("./lib/game");
+const { createGameRoom, joinGameRoom, isJoinedGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd, batchPayGameRoom, batchEarnGameRoom } = require("./lib/game");
 
 const { registerIPP, revealClaimingCode, verifyClaimingCode, revealIPPPrivateKey } = require("./lib/instantplaypass");
 
@@ -134,17 +134,15 @@ else if (args[0] == 'createGameRoom') {
 
 // node index.js joinGameRoom roomId sessionJwt
 // args1 = roomId
-// args2 = plyrId
-// args3 = sessionJwt
+// args2 = sessionJwt
 // In the real world, you can bring many users to join the room. (please check at lib/game.js)
 else if (args[0] == 'joinGameRoom') {
-    joinGameRoom(args[1], args[2], args[3]);
+    joinGameRoom(args[1], args[2]);
 }
 
 // node index.js leaveGameRoom roomId sessionJwt
 // args1 = roomId
-// args2 = plyrId
-// args3 = sessionJwt
+// args2 = sessionJwt
 // In the real world, you can remove many users from the room. (please check at lib/game.js)
 else if (args[0] == 'leaveGameRoom') {
     leaveGameRoom(args[1], args[2]);
@@ -164,23 +162,42 @@ else if (args[0] == 'approveGameToken') {
 
 // node index.js payGameRoom roomId plyrId sessionJwt tokenName amount
 // args1 = roomId
-// args2 = plyrId
-// args3 = sessionJwt
+// args2 = sessionJwt
+// args3 = tokenName (now support only 'plyr', 'gamr' and future it will support more and ttoken address too)
+// args4 = amount of token to pay but need to <= approved amount
+else if (args[0] == 'payGameRoom') {
+    payGameRoom(args[1], args[2], args[3], args[4])
+}
+
+// node index.js batchPayGameRoom roomId plyrId sessionJwt tokenName amount
+// args1 = roomId
+// args2 = sessionJwt - #1
+// args3 = sessionJwt - #2
 // args4 = tokenName (now support only 'plyr', 'gamr' and future it will support more and ttoken address too)
 // args5 = amount of token to pay but need to <= approved amount
 // In the real world, you can spend many users' tokens at the same time (please check at lib/game.js)
-else if (args[0] == 'payGameRoom') {
-    payGameRoom(args[1], args[2], args[3], args[4], args[5])
+else if (args[0] == 'batchPayGameRoom') {
+    batchPayGameRoom(args[1], args[2], args[3], args[4], args[5])
 }
 
 // node index.js payGameRoom roomId plyrId sessionJwt tokenName amount
 // args1 = roomId
 // args2 = plyrId
-// args3 = tokenName (now support only 'plyr', 'gamr' and future it will support more and ttoken address too)
+// args3 = tokenName (now support only 'plyr', 'gamr' and future it will support more and token address too)
 // args4 = amount of token to approve (Just a number like 0.00001 , 1 , 10 , 1000)
-// If you want to broadcast earning. Please should use Multicall function or loop by yourself
 else if (args[0] == 'earnGameRoom') {
     earnGameRoom(args[1], args[2], args[3], args[4])
+}
+
+// node index.js batchEarnGameRoom roomId plyrId sessionJwt tokenName amount
+// args1 = roomId
+// args2 = plyrId - #1
+// args3 = plyrId - #2
+// args4 = tokenName (now support only 'plyr', 'gamr' and future it will support more and ttoken address too)
+// args5 = amount of token to pay but need to <= approved amount
+// In the real world, you can spend many users' tokens at the same time (please check at lib/game.js)
+else if (args[0] == 'batchEarnGameRoom') {
+    batchEarnGameRoom(args[1], args[2], args[3], args[4], args[5])
 }
 
 // node index.js endGameRoom roomId
@@ -215,13 +232,14 @@ else if (args[0] == 'revokeApproval') {
 // AKA Start Settlement //
 // A classic like Zoo API. Create a room, join users, Pay for the room. at once
 // node index.js createJoinPay plyrId token amount sessionJwt
-// args1 = plyrId
+
+// args1 = sessionJwt
 // args2 = token - Token Name or Token Address
 // args3 = Token amount
-// args4 = sessionJwt
+
 // Can do multiple users please check at lib/game.js
 else if (args[0] == 'createJoinPay') {
-    createJoinPay(args[1], args[2], args[3], args[4])
+    createJoinPay(args[1], args[2], args[3])
 }
 
 // AKA Over Settlement //
