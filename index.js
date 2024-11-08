@@ -1,4 +1,4 @@
-const { userLogin, userLogout, checkSessionJwt, getUserInfo, getAvatar, userLoginAndApprove, getUserBalance } = require("./lib/user");
+const { userLogin, userLogout, checkSessionJwt, getUserInfo, getAvatar, getAvatars, userLoginAndApprove, getUserBalance } = require("./lib/user");
 
 const { airdropCampaignInfo, airdropCampaignClaimableRewards, airdropCampaignClaim, airdropUserStats } = require("./lib/airdrop");
 
@@ -6,7 +6,7 @@ const { getTaskMessageStatus } = require("./lib/message");
 
 const { getSessionJwtPublicKey, verifyJwtLocally } = require("./lib/jwt");
 
-const { createGameRoom, joinGameRoom, isJoinedGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd, batchPayGameRoom, batchEarnGameRoom, joinPay } = require("./lib/game");
+const { createGameRoom, joinGameRoom, isJoinedGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd, batchPayGameRoom, batchEarnGameRoom, joinPay, earnLeave } = require("./lib/game");
 
 const { registerIPP, revealClaimingCode, verifyClaimingCode, revealIPPPrivateKey } = require("./lib/instantplaypass");
 
@@ -84,6 +84,11 @@ else if (args[0] == 'userBalance') {
 // node index.js getAvatar fennec2
 else if (args[0] == 'getAvatar') {
     getAvatar(args[1]);
+}
+
+// node index.js getAvatar fennec2 cryptofennec
+else if (args[0] == 'getAvatars') {
+    getAvatars(args[1], args[2]);
 }
 
 
@@ -230,9 +235,23 @@ else if (args[0] == 'revokeApproval') {
 }
 
 // node index.js joinPay gameId roomId sessionJwt token amount
-
+// args1 = gameId
+// args2 = roomId
+// args3 = sessionJwt
+// args4 = token
+// args5 = amount
 else if (args[0] == 'joinPay') {
     joinPay(args[1], args[2], args[3], args[4], args[5])
+}
+
+// node index.js earnLeave roomId plyrId token amount
+// arg1 = roomId
+// args2 = plyrId
+// args3 = token - Token Name or Token Address
+// args4 = Reward amount
+// Can do multiple users please check at lib/game.js
+else if (args[0] == 'earnLeave') {
+    earnLeave(args[1], args[2], args[3], args[4])
 }
 
 // AKA Start Settlement //
@@ -250,7 +269,7 @@ else if (args[0] == 'createJoinPay') {
 
 // AKA Over Settlement //
 // A classic like Zoo API. Reward a users, let them leave the room and end the room
-// node index.js earnLeaveEnd roomId plyrId token amount sessionJwt
+// node index.js earnLeaveEnd roomId plyrId token amount
 // arg1 = roomId
 // args2 = plyrId
 // args3 = token - Token Name or Token Address
