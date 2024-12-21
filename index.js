@@ -1,6 +1,6 @@
 const { userLogin, userLogout, checkSessionJwt, getUserInfo, getAvatar, getAvatars, userLoginAndApprove, getUserBalance } = require("./lib/user");
 
-const { airdropCampaignInfo, airdropCampaignClaimableRewards, airdropCampaignClaim, airdropUserStats } = require("./lib/airdrop");
+const { airdropCampaignInfo, airdropCampaignClaimableRewards, airdropCampaignClaim, airdropUserStats, airdropAllClaimableRewards } = require("./lib/airdrop");
 
 const { getTaskMessageStatus } = require("./lib/message");
 
@@ -78,7 +78,7 @@ else if (args[0] == 'info') {
 
 // node index.js getBalance fennec2
 else if (args[0] == 'userBalance') {
-    getUserBalance(args[1]);
+    getUserBalance(args[1], args[2]);
 }
 
 // node index.js getAvatar fennec2
@@ -102,6 +102,11 @@ else if (args[0] == "airdropCheckClaimableRewards") {
     airdropCampaignClaimableRewards(args[1], args[2]);
 }
 
+// node index.js airdropCheckAllClaimableRewards 0xabc..1234
+else if (args[0] == "airdropCheckAllClaimableRewards") {
+    airdropAllClaimableRewards(args[1]);
+}
+
 // node index.js airdropClaim 0 0xabc..1234 true/false
 else if (args[0] == "airdropClaim") {
     args[1] = Number(args[1]);
@@ -109,7 +114,7 @@ else if (args[0] == "airdropClaim") {
     airdropCampaignClaim(args[1], args[2], args[3]);
 }
 // node index.js airdropClaimedStatus MESSAGE_ID
-else if (args[0] == 'getTaskMessageStatus') {
+else if (args[0] == 'getTaskStatus') {
     getTaskMessageStatus(args[1]);
 }
 
