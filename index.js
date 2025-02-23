@@ -6,11 +6,13 @@ const { getTaskMessageStatus } = require("./lib/message");
 
 const { getSessionJwtPublicKey, verifyJwtLocally } = require("./lib/jwt");
 
-const { createGameRoom, joinGameRoom, isJoinedGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd, batchPayGameRoom, batchEarnGameRoom, joinPay, earnLeave } = require("./lib/game");
+const { createGameRoom, joinGameRoom, isJoinedGameRoom, leaveGameRoom, approveGameToken, payGameRoom, earnGameRoom, endGameRoom, getGameAllowance, revokeApproval, createJoinPay, earnLeaveEnd, joinPay, earnLeave } = require("./lib/game");
 
 const { registerIPP, revealClaimingCode, verifyClaimingCode, revealIPPPrivateKey } = require("./lib/instantplaypass");
 
 const { activityLogs } = require("./lib/log");
+
+const { getAuth } = require("./lib/auth");
 
 // CLI //
 const args = process.argv.splice(2);
@@ -38,7 +40,7 @@ if (args[0] == 'login') {
     // node index.js logout eyJhbGciOiJFUzI1N...
 }
 
-// node index.js loginAndApprove fennec2 gameId 123456 86400s plyr 10
+// node index.js loginAndApprove fennec2 gameId plyr 10 86400s 123456
 // args1 = plyrId
 // args2 = gameId / Not a game api key / you can get it with api key, sec key
 // args3 = token name plyr or gamr and support token address in the future
@@ -193,9 +195,9 @@ else if (args[0] == 'payGameRoom') {
 // args4 = tokenName (now support only 'plyr', 'gamr' and future it will support more and ttoken address too)
 // args5 = amount of token to pay but need to <= approved amount
 // In the real world, you can spend many users' tokens at the same time (please check at lib/game.js)
-else if (args[0] == 'batchPayGameRoom') {
-    batchPayGameRoom(args[1], args[2], args[3], args[4], args[5])
-}
+// else if (args[0] == 'batchPayGameRoom') {
+//     batchPayGameRoom(args[1], args[2], args[3], args[4], args[5])
+// }
 
 // node index.js payGameRoom roomId plyrId sessionJwt tokenName amount
 // args1 = roomId
@@ -213,9 +215,9 @@ else if (args[0] == 'earnGameRoom') {
 // args4 = tokenName (now support only 'plyr', 'gamr' and future it will support more and ttoken address too)
 // args5 = amount of token to pay but need to <= approved amount
 // In the real world, you can spend many users' tokens at the same time (please check at lib/game.js)
-else if (args[0] == 'batchEarnGameRoom') {
-    batchEarnGameRoom(args[1], args[2], args[3], args[4], args[5])
-}
+// else if (args[0] == 'batchEarnGameRoom') {
+//     batchEarnGameRoom(args[1], args[2], args[3], args[4], args[5])
+// }
 
 // node index.js endGameRoom roomId
 else if (args[0] == 'endGameRoom') {
@@ -315,3 +317,10 @@ else if (args[0] == 'verifyClaimingCode') {
 else if (args[0] == 'activityLogs') {
     activityLogs(args[1]);
 }
+
+
+// node index.js getAuth uid
+else if (args[0] == 'getAuth') {
+    getAuth(args[1]);
+}
+
