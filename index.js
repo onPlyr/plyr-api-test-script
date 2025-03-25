@@ -14,6 +14,8 @@ const { activityLogs } = require("./lib/log");
 
 const { getAuth } = require("./lib/auth");
 
+const { createChip, mintChip, burnChip, transferChip, chipBalance, chipInfo } = require("./lib/chip");
+
 // CLI //
 const args = process.argv.splice(2);
 function parseStringNumber(input) {
@@ -291,6 +293,33 @@ else if (args[0] == 'createJoinPay') {
 // Can do multiple users please check at lib/game.js
 else if (args[0] == 'earnLeaveEnd') {
     earnLeaveEnd(args[1], args[2], args[3], args[4])
+}
+
+
+// CHIP //
+// node index.js createChip name symbol image
+else if (args[0] == 'createChip') {
+    createChip(args[1], args[2], args[3]);
+}
+// node index.js mintChip chip plyrId amount
+else if (args[0] == 'mintChip') {
+    mintChip(args[1], args[2], args[3]);
+}
+// node index.js burnChip chip plyrId amount
+else if (args[0] == 'burnChip') {
+    burnChip(args[1], args[2], args[3]);
+}
+// node index.js transferChip chip fromPlyrId toPlyrId amount
+else if (args[0] == 'transferChip') {
+    transferChip(args[1], args[2], args[3], args[4]);
+}
+// node index.js chipBalance plyrId
+else if (args[0] == 'chipBalance') {
+    chipBalance(args[1]);
+}
+// node index.js chipInfo gameId
+else if (args[0] == 'chipInfo') {
+    chipInfo(args[1]);
 }
 
 // node index.js registerIPP
