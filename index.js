@@ -16,6 +16,10 @@ const { getAuth } = require("./lib/auth");
 
 const { createChip, mintChip, burnChip, transferChip, chipBalance, chipInfo } = require("./lib/chip");
 
+const { createNFT, mintNFT, nftInfo } = require("./lib/nft");
+
+const fs = require('fs');
+
 // CLI //
 const args = process.argv.splice(2);
 function parseStringNumber(input) {
@@ -322,6 +326,23 @@ else if (args[0] == 'chipInfo') {
     chipInfo(args[1]);
 }
 
+// NFT //
+// node index.js createNFT name symbol chainId image
+else if (args[0] == 'createNFT') {
+    createNFT(args[1], args[2], args[3], args[4]);
+}
+// node index.js mintNFT nft recipientAddress metaJsonFilename chainId
+else if (args[0] == 'mintNFT') {
+
+    // load metaJsonFilename from ./metajson/filename.json
+    const metaJson = fs.readFileSync(`./metajson/${args[3]}.json`, 'utf8');
+    //console.log('metaJson', JSON.parse(metaJson));
+    mintNFT(args[1], args[2], JSON.parse(metaJson), args[4]);
+}
+// node index.js nftInfo gameId chainId
+else if (args[0] == 'nftInfo') {
+    nftInfo(args[1], args[2]);
+}
 // node index.js registerIPP
 else if (args[0] == 'registerIPP') {
     registerIPP();
