@@ -16,7 +16,7 @@ const { getAuth } = require("./lib/auth");
 
 const { createChip, mintChip, burnChip, transferChip, chipBalance, chipInfo } = require("./lib/chip");
 
-const { createNFT, mintNFT, nftInfo } = require("./lib/nft");
+const { createNFT, mintNFT,transferNFT, burnNFT, nftBalance, nftList, nftInfo, nftIsHolding, nftCredit } = require("./lib/nft");
 
 const fs = require('fs');
 
@@ -339,10 +339,41 @@ else if (args[0] == 'mintNFT') {
     //console.log('metaJson', JSON.parse(metaJson));
     mintNFT(args[1], args[2], JSON.parse(metaJson), args[4]);
 }
+
+// node index.js transferNFT nft from to tokenId chainId
+else if (args[0] == 'transferNFT') {
+    transferNFT(args[1], args[2], args[3], args[4], args[5]);
+}
+
+// node index.js burnNFT nft tokenId chainId
+else if (args[0] == 'burnNFT') {
+    burnNFT(args[1], args[2], args[3]);
+}
+
+// node index.js nftBalance plyrId chainId
+else if (args[0] == 'nftBalance') {
+    nftBalance(args[1], args[2]);
+}
+
+// node index.js nftList plyrId chainId
+else if (args[0] == 'nftList') {
+    nftList(args[1], args[2]);
+}
+
 // node index.js nftInfo gameId chainId
 else if (args[0] == 'nftInfo') {
     nftInfo(args[1], args[2]);
 }
+
+// node index.js nftIsHolding plyrId gameId nft chainId
+else if (args[0] == 'nftIsHolding') {
+    nftIsHolding(args[1], args[2], args[3], args[4]);
+}
+
+else if (args[0] == 'nftCredit') {
+    nftCredit();
+}
+
 // node index.js registerIPP
 else if (args[0] == 'registerIPP') {
     registerIPP();
