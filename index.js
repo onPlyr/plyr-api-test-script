@@ -16,7 +16,7 @@ const { getAuth } = require("./lib/auth");
 
 const { createChip, mintChip, burnChip, transferChip, chipBalance, chipInfo } = require("./lib/chip");
 
-const { createNFT, mintNFT,transferNFT, burnNFT, nftBalance, nftList, nftInfo, nftIsHolding, nftCredit } = require("./lib/nft");
+const { createNFT, mintNFT,transferNFT, burnNFT, nftBalance, nftList, nftInfo, nftCount, nftCredit, getNftByTokenId } = require("./lib/nft");
 
 const fs = require('fs');
 
@@ -360,14 +360,19 @@ else if (args[0] == 'nftList') {
     nftList(args[1], args[2]);
 }
 
+// node index.js getNftByTokenId nft tokenId chainId
+else if (args[0] == 'getNftByTokenId') {
+    getNftByTokenId(args[1], args[2], args[3]);
+}
+
 // node index.js nftInfo gameId chainId
 else if (args[0] == 'nftInfo') {
     nftInfo(args[1], args[2]);
 }
 
 // node index.js nftIsHolding plyrId gameId nft chainId
-else if (args[0] == 'nftIsHolding') {
-    nftIsHolding(args[1], args[2], args[3], args[4]);
+else if (args[0] == 'nftCount') {
+    nftCount(args[1], args[2], args[3], args[4]);
 }
 
 else if (args[0] == 'nftCredit') {
