@@ -18,7 +18,7 @@ const { createChip, mintChip, burnChip, transferChip, chipBalance, chipInfo } = 
 
 const { createNFT, mintNFT,transferNFT, burnNFT, nftBalance, nftList, nftInfo, nftCount, nftCredit, getNftByTokenId } = require("./lib/nft");
 
-const { createBadge, mintBadge, removeBadge, burnBadge, badgeBalance, badgeList, badgeCount, badgeInfo, getBadgeByTokenId, getBadgeOwner, isBadgeBurnt } = require("./lib/badge");
+const { initBadge, createBadge, mintBadge,  burnBadge, badgeList, badgeInfo } = require("./lib/badge");
 
 const fs = require('fs');
 
@@ -383,39 +383,33 @@ else if (args[0] == 'nftCredit') {
 
 // Badge commands
 
-// node index.js createBadge name symbol description image
-else if (args[0] == 'createBadge') {
-    createBadge(args[1], args[2], args[3], args[4]);
+else if (args[0] == 'initBadge') {
+    initBadge();
 }
 
-// node index.js mintBadge badge plyrId
+// node index.js createBadge name description slug
+else if (args[0] == 'createBadge') {
+    createBadge(args[1], args[2], args[3]);
+}
+
+// node index.js mintBadge slug plyrId
 else if (args[0] == 'mintBadge') {
     mintBadge(args[1], args[2]);
 }
 
 // node index.js removeBadge badge
-else if (args[0] == 'removeBadge') {
-    removeBadge(args[1]);
-}
+// else if (args[0] == 'removeBadge') {
+//     removeBadge(args[1]);
+// }
 
-// node index.js burnBadge badge tokenId
+// node index.js burnBadge plyrId slug tokenId
 else if (args[0] == 'burnBadge') {
-    burnBadge(args[1], args[2]);
+    burnBadge(args[1], args[2], args[3]);
 }
 
-// node index.js badgeBalance plyrId
-else if (args[0] == 'badgeBalance') {
-    badgeBalance(args[1]);
-}
-
-// node index.js badgeList plyrId
+// node index.js badgeList plyrId gameId
 else if (args[0] == 'badgeList') {
-    badgeList(args[1]);
-}
-
-// node index.js badgeCount plyrId gameId badge
-else if (args[0] == 'badgeCount') {
-    badgeCount(args[1], args[2], args[3]);
+    badgeList(args[1], args[2]);
 }
 
 // node index.js badgeInfo gameId
