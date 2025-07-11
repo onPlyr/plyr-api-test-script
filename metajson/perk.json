@@ -1,0 +1,14 @@
+{
+    "name": "Phantom Dash",
+    "image": "https://ipfs.plyr.network/ipfs/bafybeifc36mkbqiegrgwqqrhokqhn5lwp3jtiw7gcdrlyfc3ym3rauzsm4/1.png",
+    "attributes": [
+        {
+            "trait_type": "PERKTYPE",
+            "value": "1"
+        },
+        {
+            "trait_type": "COINTYPE",
+            "value": "plyr"
+        }
+    ]
+}

@@ -18,7 +18,9 @@ const { createChip, mintChip, burnChip, transferChip, chipBalance, chipInfo } = 
 
 const { createNFT, mintNFT,transferNFT, burnNFT, nftBalance, nftList, nftInfo, nftCount, nftCredit, getNftByTokenId } = require("./lib/nft");
 
-const { initBadge, createBadge, mintBadge,  burnBadge, badgeList, badgeInfo } = require("./lib/badge");
+const { initBadge, isInitedBadge, createBadge, mintBadge,  burnBadge, badgeList, badgeInfo } = require("./lib/badge");
+
+const { depositRewardPool, claimableAmounts, claimRewardPool } = require("./lib/rewardPool");
 
 const fs = require('fs');
 
@@ -357,9 +359,9 @@ else if (args[0] == 'nftBalance') {
     nftBalance(args[1], args[2]);
 }
 
-// node index.js nftList plyrId chainId
+// node index.js nftList plyrId chainId nft
 else if (args[0] == 'nftList') {
-    nftList(args[1], args[2]);
+    nftList(args[1], args[2], args[3]); // nft is optional
 }
 
 // node index.js getNftByTokenId nft tokenId chainId
@@ -387,6 +389,11 @@ else if (args[0] == 'initBadge') {
     initBadge();
 }
 
+// node index.js isInitedBadge gameId
+else if (args[0] == 'isInitedBadge') {
+    isInitedBadge(args[1]);
+}
+
 // node index.js createBadge name description slug
 else if (args[0] == 'createBadge') {
     createBadge(args[1], args[2], args[3]);
@@ -407,9 +414,9 @@ else if (args[0] == 'burnBadge') {
     burnBadge(args[1], args[2], args[3]);
 }
 
-// node index.js badgeList plyrId gameId
+// node index.js badgeList plyrId
 else if (args[0] == 'badgeList') {
-    badgeList(args[1], args[2]);
+    badgeList(args[1]);
 }
 
 // node index.js badgeInfo gameId
@@ -417,6 +424,25 @@ else if (args[0] == 'badgeInfo') {
     badgeInfo(args[1]);
 }
 
+
+// REWARD POOL //
+
+// node index.js depositRewardPool gameId plyrId sessionJwt token amount expiresIn
+else if (args[0] == 'depositRewardPool') {
+    depositRewardPool(args[1], args[2], args[3], args[4], args[5], args[6]);
+}
+
+// node index.js claimableAmounts gameId tokenId
+else if (args[0] == 'claimableAmounts') {
+    claimableAmounts(args[1], args[2]);
+}
+
+// node index.js claimRewardPool plyrId token amount
+else if (args[0] == 'claimRewardPool') {
+    claimRewardPool(args[1], args[2], args[3]);
+}
+
+// REGISTRATION //
 
 // node index.js registerIPP
 else if (args[0] == 'registerIPP') {
