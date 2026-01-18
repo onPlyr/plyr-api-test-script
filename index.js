@@ -16,11 +16,11 @@ const { getAuth } = require("./lib/auth");
 
 const { createChip, mintChip, burnChip, transferChip, chipBalance, chipInfo } = require("./lib/chip");
 
-const { createNFT, mintNFT,transferNFT, burnNFT, nftBalance, nftList, nftInfo, nftCount, nftCredit, getNftByTokenId } = require("./lib/nft");
+const { createNFT, mintNFT, transferNFT, burnNFT, nftBalance, nftList, nftInfo, nftCount, nftCredit, getNftByTokenId } = require("./lib/nft");
 
-const { initBadge, isInitedBadge, createBadge, mintBadge,  burnBadge, badgeList, badgeInfo } = require("./lib/badge");
+const { initBadge, isInitedBadge, createBadge, mintBadge, burnBadge, badgeList, badgeInfo } = require("./lib/badge");
 
-const { depositRewardPool, claimableAmounts, claimRewardPool } = require("./lib/rewardPool");
+const { depositRewardPool, claimableAmounts, claimRewardPool, batchClaimRewardPool } = require("./lib/rewardPool");
 
 const fs = require('fs');
 
@@ -440,6 +440,11 @@ else if (args[0] == 'claimableAmounts') {
 // node index.js claimRewardPool plyrId token amount
 else if (args[0] == 'claimRewardPool') {
     claimRewardPool(args[1], args[2], args[3]);
+}
+
+// node index.js batchClaimRewardPool plyrId token amount
+else if (args[0] == 'batchClaimRewardPool') {
+    batchClaimRewardPool(args[1], args[2], args[3]);
 }
 
 // REGISTRATION //

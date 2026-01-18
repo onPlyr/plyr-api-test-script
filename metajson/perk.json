@@ -9,6 +9,10 @@
         {
             "trait_type": "COINTYPE",
             "value": "plyr"
+        },
+        {
+            "trait_type": "MAPID",
+            "value": "2"
         }
     ]
 }
